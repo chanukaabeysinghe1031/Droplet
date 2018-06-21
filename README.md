@@ -1,1 +1,1 @@
-# Droplet mobile Applicarion
+# Droplet mobile Application
