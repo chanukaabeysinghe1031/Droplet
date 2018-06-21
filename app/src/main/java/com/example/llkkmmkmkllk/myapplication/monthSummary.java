@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -21,8 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class yearSummary extends AppCompatActivity implements View.OnClickListener {
-
+public class monthSummary extends AppCompatActivity implements View.OnClickListener{
 
     private LineChart lChart;
     private ArrayList arrayList;
@@ -31,13 +31,13 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_year_summary);
+        setContentView(R.layout.activity_month_summary);
 
         lChart = (LineChart) findViewById(R.id.summaryChart);
         btnBack=(Button) findViewById(R.id.btn1);
         btnBack.setOnClickListener(this);
 
-        YearBackgroundTask hbt = new YearBackgroundTask();
+        MonthBackgroundTask hbt = new MonthBackgroundTask();
         try {
             arrayList = hbt.execute().get();
         } catch (InterruptedException e) {
@@ -56,13 +56,13 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
 
         for (int j = 0; j < arrayList.size(); j++) {
             childMap = (HashMap) arrayList.get(j);
-            String monthNumber = (String) childMap.get("month");
+            String monthNumber = (String) childMap.get("day");
             int waterflow=(int)childMap.get("usage");
             months.add(monthNumber);
             usages.add(waterflow);
         }
 
-        for(int i=0;i<12;i++){
+        for(int i=0;i<31;i++){
             boolean setValues=false;
             for(int k=0;k<months.size();k++){
                 if(String.valueOf(i+1).equals(months.get(k))){
@@ -76,12 +76,12 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(yValues, "Monthly Usage");
+        LineDataSet dataSet = new LineDataSet(yValues, "Daily Usage");
         dataSet.setFillAlpha(110);
-        dataSet.setDrawValues(false);
         dataSet.setColor(Color.BLACK);
+        dataSet.setDrawValues(false);
         dataSet.setLineWidth(3f);
-        //dataSet.setValueTextSize(10f);
+        dataSet.setValueTextSize(10f);
 
         LimitLine upperLimit = new LimitLine(4000f, "Too Much Usage");
         upperLimit.setLineWidth(4f);
@@ -94,8 +94,8 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         leftAsxis.addLimitLine(upperLimit);
         leftAsxis.setAxisMaximum(5000f);
         leftAsxis.setAxisMinimum(0f);
-        leftAsxis.enableGridDashedLine(10f, 10f, 0);
         leftAsxis.setDrawGridLines(false);
+        leftAsxis.enableGridDashedLine(10f, 10f, 0);
         leftAsxis.setDrawLimitLinesBehindData(true);
 
         XAxis bottomAxis=lChart.getXAxis();
@@ -109,11 +109,11 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         LineData data = new LineData(dataSets);
         lChart.setData(data);
 
-        String[] values = new String[]{"January", "February", "March", "April"
-                , "May", "June", "July", "August", "September", "Octomber", "November", "December", "January"};
+//        String[] values = new String[]{"1", "February", "March", "April"
+//                , "May", "June", "July", "August", "September", "Octomber", "November", "December", "January"};
 
         XAxis xAxis = lChart.getXAxis();
-        xAxis.setValueFormatter(new MyXAxisValueFormatter(values));
+        //xAxis.setValueFormatter(new MyXAxisValueFormatter(values));
         xAxis.setGranularity(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }

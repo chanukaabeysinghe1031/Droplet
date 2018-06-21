@@ -1,21 +1,12 @@
 package com.example.llkkmmkmkllk.myapplication;
 
-import android.graphics.Color;
+
 import android.os.AsyncTask;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,18 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HistoryBackgroundTask extends AsyncTask<Void, Void, ArrayList> {
+public class YearBackgroundTask extends AsyncTask<Void, Void, ArrayList> {
 
     static String json = "";
-    String parsed;
-    JSONObject Jaa;
-    Map<String,Object> map=new HashMap<>();
-
-    Map<String,Object>  mapp=new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     static ArrayList<Object> arrayOfMonths;
-    int waterflow;
 
-    JSONArray JA2;
     @Override
     protected ArrayList doInBackground(Void... voids) {
 
@@ -58,10 +43,11 @@ public class HistoryBackgroundTask extends AsyncTask<Void, Void, ArrayList> {
                 }
             }
 
-            ObjectMapper mapper=new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper();
 
-            map=mapper.readValue(json, new TypeReference<Map<String,Object>>() {});
-            arrayOfMonths=(ArrayList<Object>) map.get("months");
+            map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
+            });
+            arrayOfMonths = (ArrayList<Object>) map.get("months");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

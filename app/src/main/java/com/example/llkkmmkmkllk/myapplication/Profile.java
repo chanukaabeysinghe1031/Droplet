@@ -23,6 +23,7 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
     public static TextView monthlyUsage;
     public static ImageView waterPercentage;
     public Button history;
+    public Button monthHistory;
     public static int percentage;
     private Button buttonLogout;
 
@@ -63,8 +64,10 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
         monthlyUsage=(TextView)findViewById(R.id.txtMonthlyUsage);
         waterPercentage=(ImageView)findViewById(R.id.waterPercentage);
         history=(Button) findViewById(R.id.buttonDisplayYearSummary);
+        monthHistory=(Button)findViewById(R.id.buttonDisplayMonthSummary);
 
         history.setOnClickListener(this);
+        monthHistory.setOnClickListener(this );
         SummaryBackgroundTask bt=new SummaryBackgroundTask();
         bt.execute();
     }
@@ -84,6 +87,11 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
         if(view==history){
             finish();
             startActivity(new Intent(this, yearSummary.class));
+        }
+
+        if(view==monthHistory){
+            finish();
+            startActivity(new Intent(this, monthSummary.class));
         }
     }
 }

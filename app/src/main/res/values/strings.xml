@@ -11,4 +11,5 @@
     <string name="back">Back</string>
     <string name="next">Next</string>
     <string name="summary_of_the_year">Summary of the year</string>
+    <string name="year_summary">Year Summary</string>
 </resources>
