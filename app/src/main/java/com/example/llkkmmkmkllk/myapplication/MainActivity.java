@@ -21,11 +21,16 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String userID;
+    private String deviceID;
+    private static final String URL="http://139.59.81.23/apis/droplet/api/v1";
+
     //defining views
     private Button buttonSignIn;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignUp;
+    private TextView text11;
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -33,11 +38,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //progress dialog
     private ProgressDialog progressDialog;
 
+    public void setUserID(String userID) {this.userID = userID;}
+    public void setDeviceID(String deviceID) {this.deviceID = deviceID;}
+    public String getUserID() {return userID;}
+    public String getDeviceID() {return deviceID;}
+    public static String getURL() {return URL;}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//getting firebase auth object
+        //getting firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
 
         //if the objects getcurrentuser method is not null
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignin);
         buttonSignUp  = (Button) findViewById(R.id.buttonSignUp);
+        text11=(TextView)findViewById(R.id.text11);
 
         progressDialog = new ProgressDialog(this);
 
@@ -82,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //if the email and password are not empty
         //displaying a progress dialog
 
-        progressDialog.setMessage("Registering Please Wait...");
+        progressDialog.setMessage("Loging Please Wait...");
         progressDialog.show();
 
         //logging in the user
@@ -93,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         progressDialog.dismiss();
                         //if the task is successfull
                         if(task.isSuccessful()){
+                            String id=firebaseAuth.getUid();
+                            text11.setText(id);
                             //start the profile activity
                             finish();
                             startActivity(new Intent(getApplicationContext(), Profile.class));

@@ -47,6 +47,7 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         }
 
         lChart.setDragEnabled(true);
+        lChart.animateXY(300,300);
         lChart.setScaleEnabled(true);
         ArrayList yValues = new ArrayList<>();
         ArrayList<Integer> usages = new ArrayList<>();

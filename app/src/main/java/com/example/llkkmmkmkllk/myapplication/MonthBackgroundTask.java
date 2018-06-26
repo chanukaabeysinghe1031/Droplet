@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +22,20 @@ public class MonthBackgroundTask extends AsyncTask<Void,Void,ArrayList> {
     static String json = "";
     Map<String, Object> map = new HashMap<>();
     static ArrayList<Object> arrayOfDays;
+    int year;
+    int month;
 
     @Override
     protected ArrayList<Object> doInBackground(Void... voids) {
 
+        Calendar calender=Calendar.getInstance();
+        year=calender.get(Calendar.YEAR);
+        month=calender.get(Calendar.MONTH);
+//        monthSummary.text.setText(String.valueOf(year)+String.valueOf(month));
+
         try {
-            URL url = new URL("http://139.59.81.23/apis/droplet/api/v1/devices/1/usage/2018/5/days");
+            URL url = new URL("http://139.59.81.23/apis/droplet/api/v1/devices/1/usage/"
+                    +String.valueOf(year)+"/"+String.valueOf(month)+"/days");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = urlConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -52,4 +61,5 @@ public class MonthBackgroundTask extends AsyncTask<Void,Void,ArrayList> {
 
         return arrayOfDays;
     }
+
 }

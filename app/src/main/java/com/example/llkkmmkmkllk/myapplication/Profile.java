@@ -1,6 +1,7 @@
 package com.example.llkkmmkmkllk.myapplication;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,11 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Transaction;
 
-public class Profile extends AppCompatActivity  implements View.OnClickListener {
+import java.util.logging.Handler;
+
+public class Profile extends AppCompatActivity  implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -26,11 +30,25 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
     public Button monthHistory;
     public static int percentage;
     private Button buttonLogout;
+    private SwipeRefreshLayout swipe;
+    //private TextView text;
 
+    int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        swipe=(SwipeRefreshLayout)findViewById(R.id.swipe);
+        //text=(TextView)findViewById(R.id.text1);
+        //text.setText(String.valueOf(i));
+        swipe.setOnRefreshListener(this);
+            doTask();
+
+    }
+
+    private void doTask(){
+        //swipe.setOnRefreshListener(this);
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -66,12 +84,12 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
         history=(Button) findViewById(R.id.buttonDisplayYearSummary);
         monthHistory=(Button)findViewById(R.id.buttonDisplayMonthSummary);
 
+
         history.setOnClickListener(this);
         monthHistory.setOnClickListener(this );
         SummaryBackgroundTask bt=new SummaryBackgroundTask();
         bt.execute();
     }
-
     @Override
     public void onClick(View view) {
         //if logout is pressed
@@ -94,4 +112,27 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener 
             startActivity(new Intent(this, monthSummary.class));
         }
     }
+
+    @Override
+    public void onRefresh() {
+        //i++;
+        //text.setText(String.valueOf(i));
+        usage.setText("");
+        todayUsage.setText("");
+        monthlyUsage.setText("");
+        doTask();
+        android.os.Handler handler = new android.os.Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                swipe.setRefreshing(false);
+            }
+        });
+
+    }
+
+//    @Override
+//    public void onRefresh() {
+//        swipe.setRefreshing(true);
+//    }
 }

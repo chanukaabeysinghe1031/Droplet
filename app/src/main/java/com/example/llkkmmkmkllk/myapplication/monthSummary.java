@@ -2,6 +2,7 @@ package com.example.llkkmmkmkllk.myapplication;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -27,6 +29,10 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
     private LineChart lChart;
     private ArrayList arrayList;
     private Button btnBack;
+    private TextView refresh;
+//    public static TextView text;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,16 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
 
         lChart = (LineChart) findViewById(R.id.summaryChart);
         btnBack=(Button) findViewById(R.id.btn1);
+        refresh=(TextView)findViewById(R.id.swipe);
+
         btnBack.setOnClickListener(this);
+        refresh.setOnClickListener(this);
+        displayTable();
+
+    }
+
+    private void displayTable(){
+        Calendar calender=Calendar.getInstance();
 
         MonthBackgroundTask hbt = new MonthBackgroundTask();
         try {
@@ -48,6 +63,7 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
 
         lChart.setDragEnabled(true);
         lChart.setScaleEnabled(true);
+        lChart.animateXY(300,300);
         ArrayList yValues = new ArrayList<>();
         ArrayList<Integer> usages = new ArrayList<>();
         ArrayList<String > months = new ArrayList<>();
@@ -92,7 +108,7 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
         YAxis leftAsxis = lChart.getAxisLeft();
         leftAsxis.removeAllLimitLines();
         leftAsxis.addLimitLine(upperLimit);
-        leftAsxis.setAxisMaximum(5000f);
+        //leftAsxis.setAxisMaximum(5000f);
         leftAsxis.setAxisMinimum(0f);
         leftAsxis.setDrawGridLines(false);
         leftAsxis.enableGridDashedLine(10f, 10f, 0);
@@ -123,6 +139,10 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
         if(v==btnBack){
             finish();
             startActivity(new Intent(this, Profile.class));
+        }
+
+        if(v==refresh){
+            displayTable();
         }
     }
 }

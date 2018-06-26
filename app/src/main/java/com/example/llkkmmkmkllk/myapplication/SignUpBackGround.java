@@ -20,21 +20,21 @@ import java.net.URL;
 public class SignUpBackGround extends AsyncTask<Void,Void,Void> {
     @Override
     protected Void doInBackground(Void... voids) {
-
-        String moduleKey=(SignUp.moduleKey.getText().toString());
-        String email=SignUp.email.getText().toString();
-        String password=SignUp.password.getText().toString();
-        String tankCapacity=SignUp.tankCapacity.getText().toString();
-        JSONObject newCustomer=new JSONObject();
-        try {
-            newCustomer.put("email",email);
-            newCustomer.put("password",password);
-            newCustomer.put("id",moduleKey);
-            newCustomer.put("tankcapacity",tankCapacity);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+//
+//        String moduleKey=(SignUp.moduleKey.getText().toString());
+//        String email=SignUp.email.getText().toString();
+//        String password=SignUp.password.getText().toString();
+//        String tankCapacity=SignUp.tankCapacity.getText().toString();
+//        JSONObject newCustomer=new JSONObject();
+//        try {
+//            newCustomer.put("email",email);
+//            newCustomer.put("password",password);
+//            newCustomer.put("id",moduleKey);
+//            newCustomer.put("tankcapacity",tankCapacity);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
 
         return null;
     }
@@ -95,15 +95,15 @@ public class SignUpBackGround extends AsyncTask<Void,Void,Void> {
 //        return result;
 //    }
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-
-        inputStream.close();
-        return result;
-
-    }
+//    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+//        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+//        String line = "";
+//        String result = "";
+//        while((line = bufferedReader.readLine()) != null)
+//            result += line;
+//
+//        inputStream.close();
+//        return result;
+//
+//    }
 }

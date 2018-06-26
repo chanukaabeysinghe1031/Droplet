@@ -4,59 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/grad_bg"
+    android:background="@color/gradStop"
     tools:context=".SignUp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/registration"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:layout_marginBottom="30dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/gradStop"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/registration"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+
+        </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/content"
+            android:background="@color/lightBlue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/login"
+            android:layout_centerInParent="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="100dp"
+            android:paddingBottom="200dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
+                    android:paddingStart="1dp"
                     android:text="@string/email"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:paddingStart="1dp"/>
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/et_bg"
                     android:fontFamily="sans-serif-light"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -69,16 +82,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
+                    android:paddingStart="1dp"
                     android:text="@string/password"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:paddingStart="1dp"/>
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/txtPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/et_bg"
                     android:fontFamily="sans-serif-light"
@@ -86,8 +99,9 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,54 +113,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/confirm_password"
+                    android:paddingStart="1dp"
+                    android:text="Device Key"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:paddingStart="1dp"/>
+                    android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/txtConfirmPassword"
+                    android:id="@+id/txtModuleKey"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/et_bg"
                     android:fontFamily="sans-serif-light"
-                    android:inputType="textPassword"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
-
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/module_key"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:paddingStart="1dp"/>
-
-            <EditText
-                android:id="@+id/txtModuleKey"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/et_bg"
-                android:fontFamily="sans-serif-light"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textColor="@color/white"
-                android:textSize="15sp"/>
-        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,36 +142,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
+                    android:paddingStart="1dp"
                     android:text="@string/tank_capacity"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:paddingStart="1dp"/>
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/txtTankCapacity"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/et_bg"
                     android:fontFamily="sans-serif-light"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:background="@color/gradStop">
 
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_bg"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:background="@drawable/btn_bg"
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
-                android:text="Create Account"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
@@ -196,14 +190,16 @@
                 android:id="@+id/btnLogIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/transparent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Login"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
+
         </LinearLayout>
 
     </RelativeLayout>
