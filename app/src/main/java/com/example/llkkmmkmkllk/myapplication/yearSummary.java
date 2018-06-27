@@ -1,7 +1,12 @@
 package com.example.llkkmmkmkllk.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +23,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class yearSummary extends AppCompatActivity implements View.OnClickListener {
@@ -37,15 +44,22 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         btnBack=(Button) findViewById(R.id.btn1);
         btnBack.setOnClickListener(this);
 
-        YearBackgroundTask hbt = new YearBackgroundTask();
-        try {
-            arrayList = hbt.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        if (!isConnected(yearSummary.this)) {
+            doTask(getData());
+        } else {
+            YearBackgroundTask hbt = new YearBackgroundTask();
+            try {
+                arrayList = hbt.execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            doTask(arrayList);
         }
+    }
 
+    private void doTask(ArrayList arrayList){
         lChart.setDragEnabled(true);
         lChart.animateXY(300,300);
         lChart.setScaleEnabled(true);
@@ -54,7 +68,6 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         ArrayList<String > months = new ArrayList<>();
         Map<String, Object> childMap = new HashMap<>();
 
-
         for (int j = 0; j < arrayList.size(); j++) {
             childMap = (HashMap) arrayList.get(j);
             String monthNumber = (String) childMap.get("month");
@@ -62,6 +75,8 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
             months.add(monthNumber);
             usages.add(waterflow);
         }
+
+        storeData(months,usages);
 
         for(int i=0;i<12;i++){
             boolean setValues=false;
@@ -93,7 +108,6 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
         YAxis leftAsxis = lChart.getAxisLeft();
         leftAsxis.removeAllLimitLines();
         leftAsxis.addLimitLine(upperLimit);
-        leftAsxis.setAxisMaximum(5000f);
         leftAsxis.setAxisMinimum(0f);
         leftAsxis.enableGridDashedLine(10f, 10f, 0);
         leftAsxis.setDrawGridLines(false);
@@ -125,5 +139,63 @@ public class yearSummary extends AppCompatActivity implements View.OnClickListen
             finish();
             startActivity(new Intent(this, Profile.class));
         }
+    }
+
+    public boolean isConnected(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
+            else return false;
+        } else
+            return false;
+    }
+
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this.");
+        return builder;
+    }
+
+    public void storeData(ArrayList months, ArrayList usages) {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("MonthlyUsage", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        Set setOfMonths = new HashSet<>(months);
+        Set setOfUsage = new HashSet<>(usages);
+
+        editor.putStringSet("Months", setOfMonths);
+        editor.putStringSet("Usage", setOfUsage);
+        editor.apply();
+    }
+
+    public ArrayList getData() {
+        ArrayList getArrayList = new ArrayList();
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("MonthlyUsage", MODE_PRIVATE);
+
+        Set setOfMonths = new HashSet<>();
+        Set setOfUsage = new HashSet<>();
+
+        setOfMonths = sp.getStringSet("Months", null);
+        setOfUsage = sp.getStringSet("Usage", null);
+        ArrayList days = new ArrayList(setOfMonths);
+        ArrayList usages = new ArrayList(setOfUsage);
+        for (int i = 0; i < setOfMonths.size(); i++) {
+            Map<String, Object> childMap = new HashMap();
+            childMap.put("month", days.get(i));
+            childMap.put("usage",usages.get(i));
+            if (childMap != null && getArrayList != null) {
+                getArrayList.add(childMap);
+            }
+
+        }
+        return getArrayList;
     }
 }

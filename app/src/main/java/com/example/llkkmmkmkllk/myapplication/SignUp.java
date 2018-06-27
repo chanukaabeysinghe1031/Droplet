@@ -2,6 +2,7 @@ package com.example.llkkmmkmkllk.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -144,5 +145,27 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             startActivity(new Intent(this, MainActivity.class));
         }
 
+    }
+
+    public void storeData(String email,String password,String deviceKey,
+                          String userID,double tankCapacity){
+        SharedPreferences sp=getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putString("email",email);
+        editor.putString("Password",password);
+        editor.putString("deviceKey",deviceKey);
+        editor.putString("userID",userID);
+        editor.putInt("tank capacity", ((int) tankCapacity));
+        editor.apply();
+
+    }
+
+    public void getData(){
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
+        String email = sharedPref.getString("email",null);
+        String password = sharedPref.getString("password",null);
+        String deviceKey = sharedPref.getString("deviceKey",null);
+        String userID = sharedPref.getString("userID",null);
+        String tankCapacity = sharedPref.getString("tankCapacity",null);
     }
 }

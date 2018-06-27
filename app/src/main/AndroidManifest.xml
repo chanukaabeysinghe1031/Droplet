@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.llkkmmkmkllk.myapplication">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -18,7 +21,6 @@
         </activity>
         <activity android:name=".SignUp" />
         <activity android:name=".Profile" />
-        <activity android:name=".History" />
         <activity android:name=".yearSummary" />
         <activity android:name=".monthSummary"></activity>
     </application>
