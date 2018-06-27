@@ -92,12 +92,12 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
 
         //if the user is not logged in
         //that means current user will return null
-        if(firebaseAuth.getCurrentUser() == null){
-            //closing this activity
-            finish();
-            //starting login activity
-            startActivity(new Intent(this, MainActivity.class));
-        }
+//        if(firebaseAuth.getCurrentUser() == null){
+//            //closing this activity
+//            finish();
+//            //starting login activity
+//            startActivity(new Intent(this, MainActivity.class));
+//        }
 
         //getting current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -166,11 +166,11 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
     public void onClick(View view) {
         //if logout is pressed
         if(view == buttonLogout){
-            SharedPreferences sp=getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
-            SharedPreferences.Editor editor=sp.edit();
-            editor.remove("email");
-            editor.remove("password");
-            editor.apply();
+//            SharedPreferences sp=getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
+//            SharedPreferences.Editor editor=sp.edit();
+//            editor.remove("email");
+//            editor.remove("password");
+//            editor.apply();
             //logging out the user
             firebaseAuth.signOut();
             //closing activity
