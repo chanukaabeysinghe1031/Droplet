@@ -44,8 +44,6 @@ public class monthSummary extends AppCompatActivity implements View.OnClickListe
     private LineChart lChart;
     private ArrayList arrayList;
     private Button btnBack;
-    private TextView refresh;
-    private ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
