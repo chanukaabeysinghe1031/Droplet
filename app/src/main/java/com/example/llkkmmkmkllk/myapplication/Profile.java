@@ -38,24 +38,37 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
     public static ImageView waterPercentage;
     public Button history;
     public Button monthHistory;
-    private Button buttonLogout;
     private SwipeRefreshLayout swipe;
+    private ImageView logout;
 
     private int percentage;
     private int viewUsage;
     private double viewUsageToday;
     private double viewUsageThisMonth;
 
+    private Map map;
     int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        Map map;
+        waterLevel=(TextView)findViewById(R.id.txtWaterLevel);
+        usage=(TextView)findViewById(R.id.txtRemaining);
+        todayUsage=(TextView)findViewById(R.id.txtUsageToday);
+        monthlyUsage=(TextView)findViewById(R.id.txtMonthlyUsage);
+        waterPercentage=(ImageView)findViewById(R.id.waterPercentage);
+        history=(Button) findViewById(R.id.buttonDisplayYearSummary);
+        monthHistory=(Button)findViewById(R.id.buttonDisplayMonthSummary);
         swipe=(SwipeRefreshLayout)findViewById(R.id.swipe);
+        logout=(ImageView)findViewById(R.id.logout);
+
         swipe.setOnRefreshListener(this);
 
+        begin();
+
+    }
+
+    private void begin(){
         if (!isConnected(Profile.this)) {
             Map<String,Object> storedMap=getData();
             percentage= (int) storedMap.get("percentage");
@@ -63,9 +76,9 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
             viewUsageToday=(int)storedMap.get("today");
             viewUsageThisMonth=(int)storedMap.get("month");
         } else {
-           SummaryBackgroundTask sbt = new SummaryBackgroundTask();
+            SummaryBackgroundTask sbt = new SummaryBackgroundTask();
             try {
-               map=sbt.execute().get();
+                map=sbt.execute().get();
                 Map<String,Object> childMap1= (Map<String, Object>) map.get("usage");
                 Map<String,Object> childMap2= (Map<String, Object>) map.get("level");
 
@@ -81,8 +94,7 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
                 e.printStackTrace();
             }
         }
-            doTask();
-
+        doTask();
     }
 
     private void doTask(){
@@ -102,49 +114,30 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
         //getting current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        //initializing views
-
-        buttonLogout = (Button) findViewById(R.id.buttonLogout);
-
-        //displaying logged in user name
-
-        //adding listener to button
-        buttonLogout.setOnClickListener(this);
-
-
         //====================Connect to the server to get the summary information==================
-        waterLevel=(TextView)findViewById(R.id.txtWaterLevel);
-        usage=(TextView)findViewById(R.id.txtRemaining);
-        todayUsage=(TextView)findViewById(R.id.txtUsageToday);
-        monthlyUsage=(TextView)findViewById(R.id.txtMonthlyUsage);
-        waterPercentage=(ImageView)findViewById(R.id.waterPercentage);
-        history=(Button) findViewById(R.id.buttonDisplayYearSummary);
-        monthHistory=(Button)findViewById(R.id.buttonDisplayMonthSummary);
-
         display();
 
 
         history.setOnClickListener(this);
         monthHistory.setOnClickListener(this );
+        logout.setOnClickListener(this);
     }
 
     private void display(){
         Profile.usage.setText(String.valueOf(viewUsage));
-        Profile.waterLevel.setText(String.valueOf(percentage)+"%");
+        Profile.waterLevel.setText(String.valueOf(percentage));
         Profile.todayUsage.setText(String.valueOf(viewUsageToday));
         Profile.monthlyUsage.setText(String.valueOf(viewUsageThisMonth));
 
         if(percentage==100){
-            Profile.waterPercentage.setImageResource(R.drawable.water13);
-        } else if(percentage>=90){
             Profile.waterPercentage.setImageResource(R.drawable.water12);
-        }else if(percentage>=80){
+        } else if(percentage>=90){
             Profile.waterPercentage.setImageResource(R.drawable.water11);
-        }else if(percentage>=70){
+        }else if(percentage>=80){
             Profile.waterPercentage.setImageResource(R.drawable.water10);
-        }else if(percentage>=60){
+        }else if(percentage>=70){
             Profile.waterPercentage.setImageResource(R.drawable.water9);
-        }else if(percentage>=50){
+        }else if(percentage>=60){
             Profile.waterPercentage.setImageResource(R.drawable.water8);
         }else if(percentage>=50){
             Profile.waterPercentage.setImageResource(R.drawable.water7);
@@ -165,8 +158,8 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         //if logout is pressed
-        if(view == buttonLogout){
-//            SharedPreferences sp=getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
+        if(view==logout){
+            //            SharedPreferences sp=getApplicationContext().getSharedPreferences("My Pref",MODE_PRIVATE);
 //            SharedPreferences.Editor editor=sp.edit();
 //            editor.remove("email");
 //            editor.remove("password");
@@ -178,6 +171,7 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
             //starting login activity
             startActivity(new Intent(this, MainActivity.class));
         }
+
 
         if(view==history){
 
@@ -199,7 +193,7 @@ public class Profile extends AppCompatActivity  implements View.OnClickListener,
         todayUsage.setText("");
         monthlyUsage.setText("");
         waterPercentage.setImageResource(R.drawable.water1);
-        doTask();
+         begin();
         android.os.Handler handler = new android.os.Handler();
         handler.post(new Runnable() {
             @Override
